@@ -1,3 +1,20 @@
-[gd_scene format=3 uid="uid://dabmtr8egkx2l"]
+[gd_scene load_steps=4 format=3 uid="uid://dabmtr8egkx2l"]
 
-[node name="Node2D" type="Node2D"]
+[ext_resource type="Texture2D" uid="uid://xe1ecrm18y1g" path="res://textures/ball.png" id="1_7s4qf"]
+[ext_resource type="Script" uid="uid://b7o4vevuq7yag" path="res://scripts/ball.gd" id="1_cxlvu"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_cxlvu"]
+radius = 16.0
+
+[node name="RigidBody2D" type="RigidBody2D"]
+lock_rotation = true
+contact_monitor = true
+max_contacts_reported = 10
+script = ExtResource("1_cxlvu")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("CircleShape2D_cxlvu")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+scale = Vector2(0.25, 0.25)
+texture = ExtResource("1_7s4qf")
