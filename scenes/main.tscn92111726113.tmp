@@ -1,0 +1,123 @@
+[gd_scene load_steps=5 format=3 uid="uid://b63rtlc4rb6wo"]
+
+[ext_resource type="Script" uid="uid://c0731uawtmpur" path="res://scripts/ShopManager.gd" id="1_0wfyh"]
+[ext_resource type="Script" uid="uid://bhb7qb5ahkinu" path="res://scripts/GameManager.gd" id="1_o5qli"]
+[ext_resource type="PackedScene" uid="uid://dabmtr8egkx2l" path="res://scenes/ball.tscn" id="3_sugp2"]
+[ext_resource type="Script" uid="uid://b4rrd13131c12" path="res://scripts/ui.gd" id="4_jyhfs"]
+
+[node name="Main" type="Node2D"]
+
+[node name="ShopManager" type="Node" parent="."]
+script = ExtResource("1_0wfyh")
+
+[node name="GameManager" type="Node" parent="."]
+script = ExtResource("1_o5qli")
+
+[node name="Blocks" type="Node2D" parent="."]
+
+[node name="Balls" type="Node2D" parent="."]
+
+[node name="Ball" parent="Balls" instance=ExtResource("3_sugp2")]
+
+[node name="UI" type="CanvasLayer" parent="."]
+script = ExtResource("4_jyhfs")
+
+[node name="HUD" type="Control" parent="UI"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+mouse_default_cursor_shape = 2
+
+[node name="ScoreLabel" type="Label" parent="UI/HUD"]
+layout_mode = 0
+offset_left = 10.0
+offset_top = 19.0
+offset_right = 71.0
+offset_bottom = 42.0
+text = "Score: 0"
+
+[node name="LevelLabel" type="Label" parent="UI/HUD"]
+layout_mode = 0
+offset_left = 10.0
+offset_top = 40.0
+offset_right = 68.0
+offset_bottom = 63.0
+text = "Level: 1"
+
+[node name="CurrencyLabel" type="Label" parent="UI/HUD"]
+layout_mode = 0
+offset_left = 10.0
+offset_top = 70.0
+offset_right = 99.0
+offset_bottom = 93.0
+text = "Money: $50"
+
+[node name="BallsLabel" type="Label" parent="UI/HUD"]
+layout_mode = 0
+offset_left = 10.0
+offset_top = 100.0
+offset_right = 65.0
+offset_bottom = 149.0
+text = "Balls: 1
+"
+
+[node name="ShopPanel" type="Panel" parent="UI"]
+offset_left = 620.0
+offset_right = 800.0
+offset_bottom = 297.0
+
+[node name="VBoxContainer" type="VBoxContainer" parent="UI/ShopPanel"]
+layout_mode = 0
+offset_right = 180.0
+offset_bottom = 200.0
+
+[node name="Shop" type="Label" parent="UI/ShopPanel/VBoxContainer"]
+layout_mode = 2
+text = "SHOP"
+horizontal_alignment = 1
+
+[node name="BallCostLabel" type="Label" parent="UI/ShopPanel/VBoxContainer"]
+layout_mode = 2
+text = "Ball Cost: $100"
+
+[node name="BallBuyButton" type="Button" parent="UI/ShopPanel/VBoxContainer"]
+layout_mode = 2
+text = "Buy Ball"
+
+[node name="HSeparator" type="HSeparator" parent="UI/ShopPanel/VBoxContainer"]
+layout_mode = 2
+
+[node name="ClickCostLabel" type="Label" parent="UI/ShopPanel/VBoxContainer"]
+layout_mode = 2
+text = "Upgrade Click: 100$"
+
+[node name="BuyClickButton" type="Button" parent="UI/ShopPanel/VBoxContainer"]
+layout_mode = 2
+text = "Buy Click"
+
+[node name="HSeparator2" type="HSeparator" parent="UI/ShopPanel/VBoxContainer"]
+layout_mode = 2
+
+[node name="SpeedCostLabel" type="Label" parent="UI/ShopPanel/VBoxContainer"]
+layout_mode = 2
+text = "Ball Speed Boost: 100$"
+
+[node name="BuySpeedLabel" type="Button" parent="UI/ShopPanel/VBoxContainer"]
+layout_mode = 2
+text = "Buy Boost"
+
+[node name="HSeparator3" type="HSeparator" parent="UI/ShopPanel/VBoxContainer"]
+layout_mode = 2
+
+[node name="DamageCostLabel" type="Label" parent="UI/ShopPanel/VBoxContainer"]
+layout_mode = 2
+text = "Ball DMG Boost: 100$"
+
+[node name="BuyDamageButton2" type="Button" parent="UI/ShopPanel/VBoxContainer"]
+layout_mode = 2
+text = "Buy Boost
+"

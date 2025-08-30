@@ -1,40 +1,91 @@
 extends CanvasLayer
 
-@onready var score_label: Label = $ScoreLabel
-@onready var level_label: Label = $LevelLabel
-@onready var game_over_label: Label = $GameOverLabel
+@onready var score_label: Label = $HUD/ScoreLabel  # Adjust path to your actual label
+@onready var currency_label: Label = $HUD/CurrencyLabel  # Adjust path to your actual label
+@onready var level_label: Label = $HUD/LevelLabel  # Adjust path to your actual label
+
+# Shop UI elements (adjust paths as needed)
+@onready var buy_ball_button: Button = $ShopPanel/VBoxContainer/BallBuyButton
+@onready var buy_click_button: Button = $ShopPanel/VBoxContainer/BuyClickButton
+@onready var buy_speed_button: Button = $ShopPanel/VBoxContainer/BuySpeedButton
+@onready var buy_damage_button: Button = $ShopPanel/VBoxContainer/BuyDamageButton2
+
+@onready var ball_cost_label: Label = $ShopPanel/VBoxContainer/BallCostLabel
+@onready var click_cost_label: Label = $ShopPanel/VBoxContainer/ClickCostLabel
+@onready var speed_cost_label: Label = $ShopPanel/VBoxContainer/SpeedCostLabel
+@onready var damage_cost_label: Label = $ShopPanel/VBoxContainer/DamageCostLabel
+
+
 
 func _ready():
-	# Connect to GameManager signals
+	# Connect GameManager signals
 	GameManager.score_changed.connect(_on_score_changed)
+	GameManager.currency_changed.connect(_on_currency_changed)
 	GameManager.level_changed.connect(_on_level_changed)
-	GameManager.game_over_signal.connect(_on_game_over)
 	
-	# Hide game over label initially
-	game_over_label.visible = false
+	# Connect shop button signals
+	if buy_ball_button:
+		buy_ball_button.pressed.connect(_on_buy_ball_pressed)
+	if buy_click_button:
+		buy_click_button.pressed.connect(_on_buy_click_pressed)
+	if buy_speed_button:
+		buy_speed_button.pressed.connect(_on_buy_speed_pressed)
+	if buy_damage_button:
+		buy_damage_button.pressed.connect(_on_buy_damage_pressed)
 	
-	# Initial UI setup
-	_on_score_changed(0)
-	_on_level_changed(1)
+	# Update shop costs initially
+	update_shop_ui()
 
 func _on_score_changed(new_score: int):
-	score_label.text = "Score: " + str(new_score)
+	if score_label:
+		score_label.text = "Score: " + str(new_score)
+
+func _on_currency_changed(new_currency: int):
+	if currency_label:
+		currency_label.text = "Money: $" + str(new_currency)
+	
+	# Update shop button availability
+	update_shop_ui()
 
 func _on_level_changed(new_level: int):
-	level_label.text = "Level: " + str(new_level)
+	if level_label:
+		level_label.text = "Level: " + str(new_level)
 
-func _on_game_over():
-	game_over_label.visible = true
-	game_over_label.text = "Game Over!\nFinal Score: " + str(GameManager.score) + "\n\nRestarting..."
+func _on_buy_ball_pressed():
+	if ShopManager.buy_ball():
+		update_shop_ui()
+
+func _on_buy_click_pressed():
+	if ShopManager.buy_click_upgrade():
+		update_shop_ui()
+
+func _on_buy_speed_pressed():
+	if ShopManager.buy_ball_speed_upgrade():
+		update_shop_ui()
+
+func _on_buy_damage_pressed():
+	if ShopManager.buy_ball_damage_upgrade():
+		update_shop_ui()
+
+func update_shop_ui():
+	var current_currency = GameManager.currency
 	
-	# Create fade effect
-	var tween = create_tween()
-	game_over_label.modulate = Color.TRANSPARENT
-	tween.tween_property(game_over_label, "modulate", Color.WHITE, 0.5)
+	# Update cost labels with current prices
+	if ball_cost_label:
+		ball_cost_label.text = "Buy Ball " + str(ShopManager.get_ball_cost())
+	if click_cost_label:
+		click_cost_label.text = "Upgrade Click " + str(ShopManager.get_click_upgrade_cost())
+	if speed_cost_label:
+		speed_cost_label.text = "Speed Upgrade: " + str(ShopManager.get_ball_speed_cost())
+	if damage_cost_label:
+		damage_cost_label.text = "DMG Upgrade: " + str(ShopManager.get_ball_damage_cost())
 	
-	# Hide game over message after delay
-	await get_tree().create_timer(3.0).timeout
-	tween = create_tween()
-	tween.tween_property(game_over_label, "modulate", Color.TRANSPARENT, 0.5)
-	await tween.finished
-	game_over_label.visible = false
+	# Enable/disable buttons based on currency
+	if buy_ball_button:
+		buy_ball_button.disabled = current_currency < ShopManager.get_ball_cost()
+	if buy_click_button:
+		buy_click_button.disabled = current_currency < ShopManager.get_click_upgrade_cost()
+	if buy_speed_button:
+		buy_speed_button.disabled = current_currency < ShopManager.get_ball_speed_cost()
+	if buy_damage_button:
+		buy_damage_button.disabled = current_currency < ShopManager.get_ball_damage_cost()

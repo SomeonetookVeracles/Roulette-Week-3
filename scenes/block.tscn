@@ -1,6 +1,6 @@
 [gd_scene load_steps=4 format=3 uid="uid://cdm48188jc1il"]
 
-[ext_resource type="Script" uid="uid://mlyuey8fly5o" path="res://scripts/blocks.gd" id="1_cgrg5"]
+[ext_resource type="Script" uid="uid://mlyuey8fly5o" path="res://scripts/block.gd" id="1_cgrg5"]
 [ext_resource type="Texture2D" uid="uid://c811kpjumybax" path="res://textures/block.png" id="2_4kun4"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_ojgcc"]
@@ -16,7 +16,7 @@ texture = ExtResource("2_4kun4")
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 shape = SubResource("RectangleShape2D_ojgcc")
 
-[node name="Label" type="Label" parent="."]
+[node name="HealthLabel" type="Label" parent="."]
 offset_left = -40.0
 offset_top = -20.0
 offset_right = 40.0
