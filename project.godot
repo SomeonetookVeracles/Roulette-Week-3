@@ -26,6 +26,10 @@ window/size/viewport_width=800
 window/size/viewport_height=600
 window/size/resizable=false
 
+[dotnet]
+
+project/assembly_name="SurrealBallist"
+
 [editor_plugins]
 
 enabled=PackedStringArray("res://addons/godot_super-wakatime/plugin.cfg")
